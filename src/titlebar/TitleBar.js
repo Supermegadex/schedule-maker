@@ -15,7 +15,7 @@ const styles = {
 function TitleBar(props) {
   const classes = props.classes;
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="static" color="accent">
       <Toolbar>
         <Typography type="title" color="inherit">
           {props.title} Schedule
