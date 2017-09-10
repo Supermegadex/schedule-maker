@@ -1,0 +1,22 @@
+{
+  "id": {
+    "title": "title",
+    "schedule": [
+      {
+        "date": "date",
+        "from": "from",
+        "to": "to",
+        "times": [
+          {
+            "from": "from",
+            "to": "to",
+            "acting": "acting",
+            "dancing": "dancing",
+            "music": "music",
+            "people": "people"
+          }
+        ]
+      }
+    ]
+  }
+}
