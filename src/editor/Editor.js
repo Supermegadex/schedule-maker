@@ -6,7 +6,9 @@ import Day from "../day/Day";
 
 const styles = theme => ({
   root: {
-    marginTop: 40
+    marginTop: 40,
+    marginLeft: 25,
+    marginRight: 25
   }
 });
 
@@ -16,20 +18,14 @@ class Editor extends Component {
     this.state = {
       play: props.play
     };
-    console.log(this.state.play);
-    // if (!this.state.play[this.props.play]) {
-    //   this.state.play[this.props.play] = {
-    //     title: "",
-    //     schedule: []
-    //   }
-    // }
+    console.log(Array.prototype.map.call(this.state.play.schedule, (a) => {return a}));
   }
 
   handleSave(index, data) {
     let schedule = this.state.play.schedule;
     schedule[index] = data;
     let play = Object.assign(this.state.play, {schedule: schedule});
-    console.log(play);
+    this.setState({ play: play }, () => this.props.save(this.state));
   }
 
   render() {

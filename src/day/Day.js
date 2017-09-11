@@ -6,11 +6,13 @@ import Typography from 'material-ui/Typography';
 import {IconButton, TextField} from "material-ui";
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import classnames from "classnames";
+import AddIcon from 'material-ui-icons/Add';
 import SaveIcon from 'material-ui-icons/Save';
+import Time from "../time/Time";
 
 const styles = theme => ({
   card: {
-    marginBottom: theme.spacingUnit
+    marginBottom: theme.spacing.unit
   },
   media: {
     height: 194,
@@ -31,36 +33,36 @@ const styles = theme => ({
     overflowX: "auto"
   },
   textField: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    fontSize: '2rem'
   }
 });
 
 class Day extends Component {
   constructor(props) {
     super();
-    console.log(props.i);
-    this.state = {
-      day: props.day
-    };
-    console.log(this.state);
+    this.state = props.day;
   }
 
-  handleSave() {
+  handleSave = () => {
     this.props.save(this.props.i, this.state)
+  };
+
+  handleText(prop, i, event) {
+    let state = this.state;
+    state.times[i][prop] = event.target.value;
+    this.setState(state);
   }
 
-  handleText(prop, event) {
-    console.log("At hT");
-    let state = {};
-    switch (prop) {
-      case "date" || "from" || "to":
-        console.log("Switch");
-        state[prop] = event.target.value;
-    }
-    console.log(state);
-    this.setState(state);
-    // this.setState({ title: event.target.value })
-  }
+  addTime = () => {
+    let times = this.state.times.map((a) => {return a});
+    times.push({
+      from: "",
+      to: "",
+      people: ""
+    });
+    this.setState({times: times});
+  };
 
   render() {
     const classes = this.props.classes;
@@ -68,16 +70,38 @@ class Day extends Component {
         <Card>
           <CardContent>
             <TextField
-                id="date"
-                label="Date"
-                className={classes.textField}
-                value={this.state.day.date}
-                onChange={event => this.handleText("date", event)}
-                margin="normal"
+              id="date"
+              label="Date"
+              className={classes.textField}
+              value={this.state.date}
+              onChange={event => this.setState({ date: event.target.value })}
+              margin="normal"
             />
+            <TextField
+              id="from"
+              label="Start time"
+              className={classes.textField}
+              value={this.state.from}
+              onChange={event => this.setState({ from: event.target.value })}
+              margin="normal"
+            />
+            <TextField
+              id="to"
+              label="End time"
+              className={classes.textField}
+              value={this.state.to}
+              onChange={event => this.setState({ to: event.target.value })}
+              margin="normal"
+            />
+            {this.state.times.map((d, t) => {
+              return <Time time={d} key={t} i={t} type={(a, b, c) => this.handleText(a, b, c)}/>
+            })}
           </CardContent>
           <CardActions>
             <div className={classes.flexGrow}/>
+            <IconButton onClick={() => this.addTime()}>
+              <AddIcon/>
+            </IconButton>
             <IconButton onClick={() => this.handleSave()}>
               <SaveIcon/>
             </IconButton>

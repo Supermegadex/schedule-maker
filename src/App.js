@@ -12,18 +12,20 @@ import New from "./new/New";
 class App extends Component {
   constructor(props) {
     super();
-    this.state = {
-      title: "",
-      id: "",
-      play: JSON.parse(localStorage.getItem("schedule")),
-      dialogOpen: false
-    };
+    this.schedule = JSON.parse(localStorage.getItem("schedule"));
   }
 
   componentWillMount() {
-    if (!this.state.play) {
-      this.openDialog()
-    }
+    this.setState({
+      title: "",
+      id: this.schedule ? Object.keys(this.schedule)[0] : "",
+      play: this.schedule,
+      dialogOpen: false
+    }, () => {
+      if (!this.state.play) {
+        this.openDialog()
+      }
+    });
   }
 
   openDialog() {
@@ -39,7 +41,11 @@ class App extends Component {
         date: "",
         from: "",
         to: "",
-        times: []
+        times: [{
+          from: "",
+          to: "",
+          people: ""
+        }]
       }]
     };
     this.setState({ play: play, title: title, id: id }, () => {
@@ -49,6 +55,12 @@ class App extends Component {
 
   handleOpen = () => {
     this.setState({ dialogOpen: true });
+  };
+
+  handleSave = (data) => {
+    let play = Object.assign({}, this.state.play);
+    play[this.state.id] = data;
+    this.setState({ play: play }, () => localStorage.setItem("schedule", JSON.stringify(this.state.play)));
   };
 
   handleClose = () => {
@@ -62,7 +74,7 @@ class App extends Component {
           <New onCreate={this.newPlay}/>
         </Dialog>
         <TitleBar title={this.state.title}/>
-        {this.state.play ? <Editor play={this.state.play[this.state.id]}/> : false}
+        {this.state.play ? <Editor play={this.state.play[this.state.id]} save={this.handleSave}/> : false}
       </div>
     );
   }
