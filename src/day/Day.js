@@ -34,7 +34,16 @@ const styles = theme => ({
   },
   textField: {
     margin: theme.spacing.unit,
-    fontSize: '2rem'
+    // fontSize: '2rem'
+  },
+  section: {
+    display: 'inline-block'
+  },
+  hr: {
+    width: '75%',
+    margin: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 3,
+    borderBottom: '8px #ff6e40 solid',
   }
 });
 
@@ -45,6 +54,7 @@ class Day extends Component {
   }
 
   handleSave = () => {
+    console.log(this.props.i, this.state);
     this.props.save(this.props.i, this.state)
   };
 
@@ -67,11 +77,14 @@ class Day extends Component {
   render() {
     const classes = this.props.classes;
     return (
-        <Card>
-          <CardContent>
+      <Card>
+        <CardHeader title={'Day ' + (this.props.i + 1)}/>
+        <CardContent>
+          <div className={classes.section}>
             <TextField
               id="date"
               label="Date"
+              placeholder="10/10"
               className={classes.textField}
               value={this.state.date}
               onChange={event => this.setState({ date: event.target.value })}
@@ -79,6 +92,7 @@ class Day extends Component {
             />
             <TextField
               id="from"
+              placeholder="4:00"
               label="Start time"
               className={classes.textField}
               value={this.state.from}
@@ -88,25 +102,28 @@ class Day extends Component {
             <TextField
               id="to"
               label="End time"
+              placeholder="6:00"
               className={classes.textField}
               value={this.state.to}
               onChange={event => this.setState({ to: event.target.value })}
               margin="normal"
             />
-            {this.state.times.map((d, t) => {
-              return <Time time={d} key={t} i={t} type={(a, b, c) => this.handleText(a, b, c)}/>
-            })}
-          </CardContent>
-          <CardActions>
-            <div className={classes.flexGrow}/>
-            <IconButton onClick={() => this.addTime()}>
-              <AddIcon/>
-            </IconButton>
-            <IconButton onClick={() => this.handleSave()}>
-              <SaveIcon/>
-            </IconButton>
-          </CardActions>
-        </Card>
+            {/* <div className={classes.hr}/> */}
+          </div>
+          {this.state.times.map((d, t) => {
+            return <Time time={d} key={t} i={t} type={(a, b, c) => this.handleText(a, b, c)}/>
+          })}
+        </CardContent>
+        <CardActions>
+          <div className={classes.flexGrow}/>
+          <IconButton onClick={() => this.addTime()}>
+            <AddIcon/>
+          </IconButton>
+          <IconButton onClick={() => this.handleSave()}>
+            <SaveIcon/>
+          </IconButton>
+        </CardActions>
+      </Card>
     )
   }
 }

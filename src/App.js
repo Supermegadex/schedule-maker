@@ -23,7 +23,10 @@ class App extends Component {
       dialogOpen: false
     }, () => {
       if (!this.state.play) {
-        this.openDialog()
+        this.openDialog();
+      }
+      else {
+        this.setState({ title: this.state.play[this.state.id].title });
       }
     });
   }
@@ -44,7 +47,10 @@ class App extends Component {
         times: [{
           from: "",
           to: "",
-          people: ""
+          people: "",
+          acting: "",
+          dancing: "",
+          music: ""
         }]
       }]
     };

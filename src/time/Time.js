@@ -32,15 +32,18 @@ const styles = theme => ({
   },
   textField: {
     margin: theme.spacing.unit
+  },
+  section: {
+    marginTop: 50,
+    borderLeft: theme.palette.primary[500] + ' 5px solid',
+    paddingLeft: 10
   }
 });
 
 class Time extends Component {
   constructor(props) {
     super();
-    console.log(props.i);
     this.state = props.time;
-    console.log(this.state);
   }
 
   handleSave = () => {
@@ -57,31 +60,60 @@ class Time extends Component {
   render() {
     const classes = this.props.classes;
     return (
-        <div>
-          <TextField
-            label="Start Time"
-            className={classes.textField}
-            value={this.state.from}
-            onChange={event => this.handleText("from", event)}
-            // this.setState({ from: event.target.value })
-            margin="normal"
-          />
-          <TextField
-            label="End Time"
-            className={classes.textField}
-            value={this.state.to}
-            onChange={event => this.handleText("to", event)}
-            margin="normal"
-          />
-          <TextField
-            label="People Needed"
-            className={classes.textField}
-            value={this.state.people}
-            onChange={event => this.handleText("people", event)}
-            margin="normal"
-            fullWidth
-          />
-        </div>
+      <div className={classes.section}>
+        <TextField
+          label="Start Time"
+          className={classes.textField}
+          value={this.state.from}
+          onChange={event => this.handleText("from", event)}
+          // this.setState({ from: event.target.value })
+          margin="normal"
+        />
+        <TextField
+          label="End Time"
+          className={classes.textField}
+          value={this.state.to}
+          onChange={event => this.handleText("to", event)}
+          margin="normal"
+        />
+        <TextField
+          label="People Needed"
+          multiline
+          rowsMax="4"
+          className={classes.textField}
+          value={this.state.people}
+          onChange={event => this.handleText("people", event)}
+          margin="normal"
+          fullWidth
+        />
+        <TextField
+          label="Acting"
+          multiline
+          rowsMax="3"
+          className={classes.textField}
+          value={this.state.acting}
+          onChange={event => this.handleText("acting", event)}
+          margin="normal"
+        />
+        <TextField
+          label="Dancing"
+          multiline
+          rowsMax="3"
+          className={classes.textField}
+          value={this.state.dancing}
+          onChange={event => this.handleText("dancing", event)}
+          margin="normal"
+        />
+        <TextField
+          label="Singing"
+          multiline
+          rowsMax="3"
+          className={classes.textField}
+          value={this.state.music}
+          onChange={event => this.handleText("music", event)}
+          margin="normal"
+        />
+      </div>
     )
   }
 }
