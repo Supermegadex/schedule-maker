@@ -113,7 +113,7 @@ class App extends Component {
     }
     document.querySelector("#auth").className = "show";
     this.fbui.start('#auth', uiConfig);
-  }
+  };
 
   checkIfAccessId() {
     this.db.ref(`/users/${this.state.uid}/__access--id__`).once("value")
@@ -131,7 +131,6 @@ class App extends Component {
      .then(snap => {
       if (snap.val()) {
         this.generateAccessId();
-        return;
        }
       else {
         this.db.ref(`/ids/${accessId.join("")}/id`).set(this.state.uid);
@@ -146,11 +145,11 @@ class App extends Component {
     }, function (error) {
       throw error;
     });
-  }
+  };
 
   handleUpload = () => {
     this.db.ref(`/users/${this.state.uid}/${this.state.id}`).update(this.state.play);
-  }
+  };
 
   handleClose = () => {
     this.setState({ dialogOpen: false });
@@ -158,15 +157,16 @@ class App extends Component {
 
   handleLoadDialog = () => {
     this.setState({ loading: true, dialogOpen: true });
-  }
+  };
 
   handleLoad = (id) => {
     this.db.ref(`/users/${this.state.uid}/${id}`).once("value").then(snap => {
       let newPlay = snap.val();
       console.log(newPlay);
-      this.setState({ loading: false, dialogOpen: false, play: newPlay, title: newPlay.title, id: id }, () => { this.handleSave(newPlay); });
+      this.setState({ loading: false, dialogOpen: false, title: newPlay.title, id: id },
+          () => { this.handleSave(newPlay); });
     })
-  }
+  };
 
   handleDownload() {
     let downloadUrl = URL.createObjectURL(new Blob([localStorage.getItem("schedule")], { type: 'application/json' }));

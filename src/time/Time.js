@@ -41,6 +41,10 @@ class Time extends Component {
     this.state = props.time;
   }
 
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps.time);
+  }
+
   handleSave = () => {
     this.props.save(this.props.i, this.state)
   };

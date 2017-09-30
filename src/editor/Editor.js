@@ -28,6 +28,25 @@ class Editor extends Component {
     this.state = {
       play: props.play
     };
+    if (!this.state.play.schedule) {
+      this.state.play.schedule = [{
+        date: "",
+        from: "",
+        to: "",
+        times: [{
+          from: "",
+          to: "",
+          people: "",
+          acting: "",
+          dancing: "",
+          music: ""
+        }]
+      }]
+    }
+  }
+
+  componentWillReceiveProps() {
+
   }
 
   handleSave(index, data) {
@@ -49,13 +68,13 @@ class Editor extends Component {
       date: "", from: "", to: ""
     });
     this.setState({ play: play });
-  }
+  };
 
   render() {
     const classes = this.props.classes;
     return (
         <div className={classes.root}>
-          {this.state.play.schedule.map((d, i) => {
+          {this.props.play.schedule.map((d, i) => {
             return (
               <div className={classes.day} key={i}>
                 <Day day={d} key={i} i={i} save={(index, data) => this.handleSave(index, data)} />

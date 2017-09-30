@@ -62,6 +62,10 @@ class Day extends Component {
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps.day);
+  }
+
   addTime = () => {
     let times = this.state.times.map((a) => {return a});
     times.push({
@@ -78,7 +82,7 @@ class Day extends Component {
     this.setState({ times: times }, () => {
       this.handleSave();
     });
-  }
+  };
 
   editTopDetails(edit) {
     this.setState(edit, () => {
