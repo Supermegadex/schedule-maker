@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {IconButton, TextField, Typography} from "material-ui";
-import Card, { CardHeader, CardMedia, CardContent, CardActions } from 'material-ui/Card';
+import {IconButton, TextField } from "material-ui";
+import Card, { CardHeader, CardContent, CardActions } from 'material-ui/Card';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import DoneIcon from 'material-ui-icons/Done';
@@ -49,7 +49,8 @@ class New extends Component {
                   value={this.state.id}
                   onChange={event => this.setState({ id: event.target.value })}
                   margin="normal"
-              /><TextField
+              />
+              <TextField
                 id="title"
                 label="Title"
                 className={classes.title}

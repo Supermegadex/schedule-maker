@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
 import {IconButton, TextField} from "material-ui";
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import classnames from "classnames";
 import AddIcon from 'material-ui-icons/Add';
-import SaveIcon from 'material-ui-icons/Save';
+import Remove from 'material-ui-icons/Remove';
 import Time from "../time/Time";
 
 const styles = theme => ({
@@ -54,14 +51,15 @@ class Day extends Component {
   }
 
   handleSave = () => {
-    console.log(this.props.i, this.state);
     this.props.save(this.props.i, this.state)
   };
 
   handleText(prop, i, event) {
     let state = this.state;
     state.times[i][prop] = event.target.value;
-    this.setState(state);
+    this.setState(state, () => {
+      this.handleSave();
+    });
   }
 
   addTime = () => {
@@ -73,6 +71,30 @@ class Day extends Component {
     });
     this.setState({times: times});
   };
+
+  removeTime = () => {
+    let times = this.state.times.map((a) => { return a });
+    times.pop();
+    this.setState({ times: times }, () => {
+      this.handleSave();
+    });
+  }
+
+  editTopDetails(edit) {
+    this.setState(edit, () => {
+      this.handleSave();
+    });
+  }
+
+  getRemoveButton() {
+    if (this.state.times[1]) {
+      return (
+        <IconButton onClick={() => this.removeTime()}>
+          <Remove />
+        </IconButton>
+      )  
+    }  
+  }
 
   render() {
     const classes = this.props.classes;
@@ -87,7 +109,7 @@ class Day extends Component {
               placeholder="10/10"
               className={classes.textField}
               value={this.state.date}
-              onChange={event => this.setState({ date: event.target.value })}
+              onChange={event => this.editTopDetails({ date: event.target.value })}
               margin="normal"
             />
             <TextField
@@ -96,7 +118,7 @@ class Day extends Component {
               label="Start time"
               className={classes.textField}
               value={this.state.from}
-              onChange={event => this.setState({ from: event.target.value })}
+              onChange={event => this.editTopDetails({ from: event.target.value })}
               margin="normal"
             />
             <TextField
@@ -105,22 +127,21 @@ class Day extends Component {
               placeholder="6:00"
               className={classes.textField}
               value={this.state.to}
-              onChange={event => this.setState({ to: event.target.value })}
+              onChange={event => this.editTopDetails({ to: event.target.value })}
               margin="normal"
             />
-            {/* <div className={classes.hr}/> */}
           </div>
           {this.state.times.map((d, t) => {
             return <Time time={d} key={t} i={t} type={(a, b, c) => this.handleText(a, b, c)}/>
           })}
         </CardContent>
         <CardActions>
-          <div className={classes.flexGrow}/>
+          <div className={classes.flexGrow} />
+          {
+            this.getRemoveButton()
+          }
           <IconButton onClick={() => this.addTime()}>
             <AddIcon/>
-          </IconButton>
-          <IconButton onClick={() => this.handleSave()}>
-            <SaveIcon/>
           </IconButton>
         </CardActions>
       </Card>

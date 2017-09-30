@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent, CardHeader } from 'material-ui/Card';
-import Typography from 'material-ui/Typography';
-import {IconButton, TextField} from "material-ui";
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import classnames from "classnames";
-import SaveIcon from 'material-ui-icons/Save';
+import { TextField } from "material-ui";
 
 const styles = theme => ({
   card: {
@@ -52,9 +47,6 @@ class Time extends Component {
 
   handleText(prop, event) {
     this.props.type(prop, this.props.i, event);
-    // let state = {};
-    // state[prop] = event.target.value;
-    // this.setState(state);
   }
 
   render() {

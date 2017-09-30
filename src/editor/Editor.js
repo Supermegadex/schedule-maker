@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Typography} from "material-ui";
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Day from "../day/Day";
@@ -8,7 +7,7 @@ import EventIcon from 'material-ui-icons/Event'
 
 const styles = theme => ({
   root: {
-    marginTop: 40,
+    marginTop: 89,
     marginLeft: 25,
     marginRight: 25,
     marginBottom: 100
@@ -25,7 +24,6 @@ const styles = theme => ({
 
 class Editor extends Component {
   constructor(props) {
-    console.log(props);
     super();
     this.state = {
       play: props.play
@@ -33,7 +31,6 @@ class Editor extends Component {
   }
 
   handleSave(index, data) {
-    console.log(data);
     let schedule = this.state.play.schedule;
     schedule[index] = data;
     let play = Object.assign(this.state.play, {schedule: schedule});
@@ -55,13 +52,12 @@ class Editor extends Component {
   }
 
   render() {
-    console.log(this.state.play);
     const classes = this.props.classes;
     return (
         <div className={classes.root}>
           {this.state.play.schedule.map((d, i) => {
             return (
-              <div className={classes.day}>
+              <div className={classes.day} key={i}>
                 <Day day={d} key={i} i={i} save={(index, data) => this.handleSave(index, data)} />
               </div>
             )

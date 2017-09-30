@@ -2,6 +2,21 @@ body {
   background: #ececec;
 }
 
+.hidden {
+  display: none;
+}
+
+#auth {
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 25px;
+  background: rgba(0, 0, 0, .5);
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
