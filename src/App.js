@@ -8,7 +8,6 @@ import { Dialog } from "material-ui";
 import Slide from 'material-ui/transitions/Slide';
 import New from "./new/New";
 import Load from "./load/Load";
-import CloudDownload from 'material-ui-icons/CloudUpload';
 
 class App extends Component {
   constructor(props) {
@@ -56,8 +55,8 @@ class App extends Component {
 
   newPlay = (id, title) => {
     if (!id || !title) return false;
-    let play = this.state.play || {};
-    play = {
+    // let play = this.state.play || {};
+    let play = {
       title: title,
       schedule: [{
         date: "",
@@ -159,6 +158,10 @@ class App extends Component {
     this.setState({ loading: true, dialogOpen: true });
   };
 
+  handleNew = () => {
+    this.setState({ dialogOpen: true });
+  };
+
   handleLoad = (id) => {
     this.db.ref(`/users/${this.state.uid}/${id}`).once("value").then(snap => {
       let newPlay = snap.val();
@@ -183,7 +186,14 @@ class App extends Component {
             : <New onCreate={this.newPlay} />
           }  
         </Dialog>
-        <TitleBar title={this.state.title} upload={this.handleUpload} download={() => this.handleDownload()} load={this.handleLoadDialog} login={this.state.signedIn ? this.handleLogout : this.handleLogin} name={this.state.name} signedIn={this.state.signedIn}/>
+        <TitleBar title={this.state.title}
+                  upload={this.handleUpload}
+                  download={() => this.handleDownload()}
+                  new={this.handleNew}
+                  load={this.handleLoadDialog}
+                  login={this.state.signedIn ? this.handleLogout : this.handleLogin}
+                  name={this.state.name}
+                  signedIn={this.state.signedIn}/>
         {this.state.play ? <Editor play={this.state.play} save={this.handleSave}/> : false}
       </div>
     );

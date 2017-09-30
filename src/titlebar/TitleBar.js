@@ -9,6 +9,7 @@ import SaveIcon from 'material-ui-icons/Save';
 import CloudUpload from 'material-ui-icons/CloudUpload';
 import CloudDownload from 'material-ui-icons/CloudDownload';
 import PersonIcon from 'material-ui-icons/Person';
+import AddIcon from 'material-ui-icons/Add';
 import PersonOutline from 'material-ui-icons/PersonOutline';
 
 const styles = {
@@ -29,20 +30,28 @@ function TitleBar(props) {
         <Typography type="subheading">
           {props.name}
         </Typography>
-        <IconButton onClick={() => props.upload()}>
-          <CloudUpload />
-        </IconButton>
-        <IconButton onClick={() => props.load()}>
-          <CloudDownload />
-        </IconButton>
         <IconButton onClick={() => props.login()}>
           {
             props.signedIn ? <PersonOutline /> : <PersonIcon />
           }
         </IconButton>
+        {
+          props.signedIn ?
+          <span>
+            <IconButton onClick={() => props.upload()}>
+              <CloudUpload />
+            </IconButton>
+            <IconButton onClick={() => props.load()}>
+              <CloudDownload />
+            </IconButton>
+          </span> : false
+        }
         <IconButton onClick={() => props.download()}>
           <SaveIcon />
-        </IconButton>  
+        </IconButton>
+        <IconButton onClick={() => props.new()}>
+          <AddIcon />
+        </IconButton>
       </Toolbar>
     </AppBar>
   );
