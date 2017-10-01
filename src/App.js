@@ -183,7 +183,7 @@ class App extends Component {
 
   handleShareDialog = () => {
     this.setState({ dialogOpen: true, share: true })
-  }
+  };
 
   getDialogContents() {
     if (this.state.loading) {
