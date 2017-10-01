@@ -67,7 +67,7 @@ class Editor extends Component {
       }],
       date: "", from: "", to: ""
     });
-    this.setState({ play: play });
+    this.setState({ play: play }, () => {this.handleSave()});
   };
 
   render() {

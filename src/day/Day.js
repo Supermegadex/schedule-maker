@@ -55,11 +55,11 @@ class Day extends Component {
   };
 
   handleText(prop, i, event) {
-    let state = this.state;
+    let state = Object.assign({}, this.state);
     state.times[i][prop] = event.target.value;
-    this.setState(state, () => {
+    // this.setState(state, () => {
       this.handleSave();
-    });
+    // });
   }
 
   componentWillReceiveProps(newProps) {
@@ -104,7 +104,7 @@ class Day extends Component {
     const classes = this.props.classes;
     return (
       <Card>
-        <CardHeader title={'Day ' + (this.props.i + 1)}/>
+        <CardHeader title={this.state.date || 'Day ' + (this.props.i + 1)}/>
         <CardContent>
           <div className={classes.section}>
             <TextField

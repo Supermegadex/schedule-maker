@@ -8,6 +8,7 @@ import { Dialog } from "material-ui";
 import Slide from 'material-ui/transitions/Slide';
 import New from "./new/New";
 import Load from "./load/Load";
+import Share from "./share/Share";
 
 class App extends Component {
   constructor(props) {
@@ -84,8 +85,9 @@ class App extends Component {
   handleSave = (data) => {
     let play = Object.assign({}, this.state.play);
     play = data;
-    this.setState({ play: play }, () => localStorage.setItem("schedule", JSON.stringify(this.state.play)));
-    localStorage.setItem("id", this.state.id);
+    this.setState({ play: play }, () => {
+      localStorage.setItem("schedule", JSON.stringify(this.state.play)); localStorage.setItem("id", this.state.id);
+    });
   };
 
   handleLogin = () => {
@@ -120,6 +122,9 @@ class App extends Component {
         if (!snap.val()) {
           this.generateAccessId();
         }
+        else {
+          this.accessId = snap.val();
+        }
       })
   }
 
@@ -134,6 +139,7 @@ class App extends Component {
       else {
         this.db.ref(`/ids/${accessId.join("")}/id`).set(this.state.uid);
         this.db.ref(`/users/${this.state.uid}/__access--id__`).set(accessId.join(""));
+        this.accessId = accessId;
       } 
     })
   }
@@ -151,7 +157,7 @@ class App extends Component {
   };
 
   handleClose = () => {
-    this.setState({ dialogOpen: false });
+    this.setState({ dialogOpen: false, share: false, loading: false });
   };
 
   handleLoadDialog = () => {
@@ -165,7 +171,6 @@ class App extends Component {
   handleLoad = (id) => {
     this.db.ref(`/users/${this.state.uid}/${id}`).once("value").then(snap => {
       let newPlay = snap.val();
-      console.log(newPlay);
       this.setState({ loading: false, dialogOpen: false, title: newPlay.title, id: id },
           () => { this.handleSave(newPlay); });
     })
@@ -176,15 +181,30 @@ class App extends Component {
     window.open(downloadUrl);
   }
 
+  handleShareDialog = () => {
+    this.setState({ dialogOpen: true, share: true })
+  }
+
+  getDialogContents() {
+    if (this.state.loading) {
+      return <Load onLoad={this.handleLoad} playId={this.state.id} />
+    }
+    else if (this.state.share) {
+      return <Share done={this.handleClose}
+                    accessId={this.accessId}
+                    playId={this.state.id}
+                     />
+    }
+    else {
+      return <New onCreate={this.newPlay} />
+    }
+  }
+
   render() {
     return (
       <div className="App">
         <Dialog open={this.state.dialogOpen} onRequestClose={this.handleClose} transition={<Slide direction={"up"} />}>
-          {
-            this.state.loading ? 
-              <Load onLoad={this.handleLoad} playId={this.state.id} />
-            : <New onCreate={this.newPlay} />
-          }  
+          { this.getDialogContents() }  
         </Dialog>
         <TitleBar title={this.state.title}
                   upload={this.handleUpload}
@@ -192,6 +212,7 @@ class App extends Component {
                   new={this.handleNew}
                   load={this.handleLoadDialog}
                   login={this.state.signedIn ? this.handleLogout : this.handleLogin}
+                  share={this.handleShareDialog}
                   name={this.state.name}
                   signedIn={this.state.signedIn}/>
         {this.state.play ? <Editor play={this.state.play} save={this.handleSave}/> : false}

@@ -10,6 +10,7 @@ import CloudUpload from 'material-ui-icons/CloudUpload';
 import CloudDownload from 'material-ui-icons/CloudDownload';
 import PersonIcon from 'material-ui-icons/Person';
 import AddIcon from 'material-ui-icons/Add';
+import ShareIcon from 'material-ui-icons/Share';
 import PersonOutline from 'material-ui-icons/PersonOutline';
 
 const styles = {
@@ -43,6 +44,9 @@ function TitleBar(props) {
             </IconButton>
             <IconButton onClick={() => props.load()}>
               <CloudDownload />
+            </IconButton>
+            <IconButton onClick={() => props.share()}>
+              <ShareIcon />
             </IconButton>
           </span> : false
         }
